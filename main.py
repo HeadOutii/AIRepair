@@ -1,27 +1,20 @@
-import pygame
+import pygame, sys
+from set import *
+from level import Level
 
 pygame.init()
+screen = pygame.display.set_mode((screen_width, screen_height))
+clock = pygame.time.Clock()
+level = Level(level_map, screen)
 
-display_w = 800
-display_h = 600
+while True:
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
 
-display = pygame.display.set_mode((display_w, display_h))
-pygame.display.set_caption('Forgotten Warrior')
+    screen.fill('black')
+    level.run()
 
-icon = pygame.image.load('icons.png')
-pygame.display.set_icon(icon)
-
-
-def run_game():
-    game = True
-
-    while game:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-
-        display.fill((255,255,255))
-        pygame.display.update()
-
-run_game()
+    pygame.display.update()
+    clock.tick(60)
