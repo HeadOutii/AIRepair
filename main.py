@@ -1,6 +1,8 @@
-import pygame, sys
-from set import *
+import pygame
+import sys
+
 from level import Level
+from set import *
 
 pygame.init()
 screen = pygame.display.set_mode((screen_width, screen_height))

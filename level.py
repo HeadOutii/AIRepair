@@ -3,10 +3,13 @@ from tiles import Tile
 from set import tile_size
 from player import Player
 
+
 class Level:
     def __init__(self, level_data, surface):
 
         # Настройка уровня
+        self.player = None
+        self.tiles = None
         self.display_surface = surface
         self.setup_level(level_data)
         self.word_shift = 0
@@ -20,16 +23,18 @@ class Level:
                 if cell == 'X':
                     x = col_index * tile_size
                     y = row_index * tile_size
-                    tile = Tile((x,y), tile_size)
+                    tile = Tile((x, y), tile_size)
                     self.tiles.add(tile)
                 if cell == 'P':
                     x = col_index * tile_size
                     y = row_index * tile_size
-                    player_sprite = Player((x,y))
-                    self.tiles.add(player_sprite)
+                    player_sprite = Player((x, y))
+                    self.player.add(player_sprite)
 
     def run(self):
+
         self.tiles.update(self.word_shift)
         self.tiles.draw(self.display_surface)
 
+        self.player.update()
         self.player.draw(self.display_surface)
