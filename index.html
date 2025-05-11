@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>AIRepair</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        :root[data-theme='dark'] {
+            --bg-color: #121212;
+            --card-color: #1f1f1f;
+            --text-color: #ffffff;
+            --input-bg: #2b2b2b;
+            --toggle-color: #888888;
+        }
+
+        :root[data-theme='light'] {
+            --bg-color: #f8f9fa;
+            --card-color: #ffffff;
+            --text-color: #212529;
+            --input-bg: #ffffff;
+            --toggle-color: #007bff;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Segoe UI', sans-serif;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        .navbar,
+        .card {
+            background-color: var(--card-color);
+            color: var(--text-color);
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        .navbar-brand {
+            color: var(--text-color) !important;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin-top: 60px;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+        }
+
+        .form-control {
+            background-color: var(--input-bg);
+            border: none;
+            color: var(--text-color);
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        img {
+            border-radius: 10px;
+            max-width: 100%;
+            height: auto;
+        }
+
+        .btn-primary, .btn-outline-light {
+            border-radius: 20px;
+        }
+
+        h1, h5, label, .btn {
+            color: var(--text-color);
+        }
+
+        /* Тема: переключатель */
+        .theme-toggle {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 25px;
+        }
+
+        .theme-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            border-radius: 50px;
+            transition: 0.4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 17px;
+            width: 17px;
+            border-radius: 50px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+        }
+
+        input:checked + .slider {
+            background-color: var(--toggle-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .slider svg {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 3px;
+            transition: 0.4s;
+        }
+
+        .slider .sun {
+            left: 5px;
+            opacity: 0;
+        }
+
+        .slider .moon {
+            right: 5px;
+            opacity: 1;
+        }
+
+        input:checked + .slider .sun {
+            opacity: 1;
+        }
+
+        input:checked + .slider .moon {
+            opacity: 0;
+        }
+
+        #loading {
+            display: none;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top px-3">
+    <a class="navbar-brand" href="{{ url_for('index') }}">AIRepair</a>
+    <div class="ms-auto d-flex align-items-center gap-2">
+        <a href="{{ url_for('login') }}" class="btn btn-outline-light">Вход</a>
+        <a href="{{ url_for('register') }}" class="btn btn-primary">Регистрация</a>
+
+        <!-- Переключатель темы -->
+        <label class="theme-toggle">
+            <input type="checkbox" id="themeSwitch" onchange="toggleTheme()">
+            <span class="slider">
+                <svg class="sun" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="5"/>
+                    <line x1="12" y1="1" x2="12" y2="3"/>
+                    <line x1="12" y1="21" x2="12" y2="23"/>
+                    <line x1="21" y1="12" x2="23" y2="12"/>
+                    <line x1="1" y1="12" x2="3" y2="12"/>
+                    <line x1="16.24" y1="7.76" x2="18.36" y2="5.64"/>
+                    <line x1="5.64" y1="18.36" x2="7.76" y2="16.24"/>
+                    <line x1="16.24" y1="16.24" x2="18.36" y2="18.36"/>
+                    <line x1="5.64" y1="5.64" x2="7.76" y2="7.76"/>
+                </svg>
+                <svg class="moon" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="black" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M12 2C16.42 2 20 5.58 20 10C20 12.57 18.83 15.01 16.84 16.07C16.17 14.5 14.56 13.48 12 13.48C9.44 13.48 7.83 14.5 7.16 16.07C5.17 15.01 4 12.57 4 10C4 5.58 7.58 2 12 2Z"/>
+                </svg>
+            </span>
+        </label>
+    </div>
+</nav>
+
+<div class="container text-center">
+    <h1 class="mb-4">Восстановление повреждённых изображений</h1>
+    <div class="card p-4 mb-4">
+        <form method="post" enctype="multipart/form-data" onsubmit="showSpinner()">
+            <input type="file" name="image" accept="image/*" class="form-control mb-3" required>
+            <button type="submit" class="btn btn-primary">Восстановить изображение</button>
+        </form>
+        <div id="loading" class="spinner-border text-light" role="status">
+            <span class="visually-hidden">Загрузка...</span>
+        </div>
+    </div>
+
+    {% if original and restored %}
+    <div class="row g-4">
+        <div class="col-md-6">
+            <div class="card p-2">
+                <h5>Повреждённое изображение</h5>
+                <img src="{{ url_for('static', filename='uploads/' + original) }}" alt="Оригинал">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card p-2">
+                <h5>Восстановленное изображение</h5>
+                <img src="{{ url_for('static', filename='uploads/' + restored) }}" alt="Восстановленное">
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+<script>
+    function toggleTheme() {
+        const root = document.documentElement;
+        const current = root.getAttribute("data-theme");
+        const next = current === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        localStorage.setItem("theme", next);
+        document.getElementById('themeSwitch').checked = (next === 'light');
+    }
+
+    function showSpinner() {
+        document.getElementById('loading').style.display = 'inline-block';
+    }
+
+    window.onload = function () {
+        const saved = localStorage.getItem("theme") || 'dark';
+        document.documentElement.setAttribute("data-theme", saved);
+        document.getElementById('themeSwitch').checked = (saved === 'light');
+    }
+</script>
+
+</body>
+</html>
