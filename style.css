@@ -1,0 +1,141 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e0f7fa; /* Светлый бледно-голубой фон страницы */
+}
+
+.header {
+    background-color: #006064; /* Темный бледно-голубой цвет для шапки */
+    color: white; /* Цвет текста */
+    padding: 10px 20px; /* Отступы внутри шапки */
+    display: flex; /* Используем flexbox для выравнивания элементов */
+    justify-content: space-between; /* Распределяем пространство между элементами */
+    align-items: center; /* Центрируем элементы по вертикали */
+    position: fixed; /* Фиксируем шапку */
+    top: 0; /* Устанавливаем шапку в верхней части экрана */
+    left: 0; /* Привязываем к левому краю */
+    right: 0; /* Привязываем к правому краю */
+    z-index: 1000; /* Увеличиваем уровень слоя, чтобы шапка была выше других элементов */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Добавляем тень к шапке */
+    opacity: 0; /* Начальная прозрачность */
+    transform: translateY(-20px); /* Начальное смещение вверх */
+    animation: slideDown 0.5s forwards; /* Анимация появления */
+}
+
+@keyframes slideDown {
+    to {
+        opacity: 1; /* Конечная прозрачность */
+        transform: translateY(0); /* Конечное положение */
+    }
+}
+
+.header-content h1 {
+    margin: 0; /* Убираем отступы у заголовка */
+}
+
+.auth-buttons {
+    display: flex; /* Используем flexbox для кнопок */
+    gap: 10px; /* Расстояние между кнопками */
+}
+
+.auth-buttons button {
+    padding: 10px 15px; /* Отступы внутри кнопок */
+    border: none; /* Убираем рамку */
+    border-radius: 5px; /* Скругляем углы кнопок */
+    background: linear-gradient(45deg, #b2ebf2, #80deea); /* Бледно-голубой градиент */
+    color: #004d40; /* Темно-голубой цвет текста */
+    cursor: pointer; /* Указываем, что кнопки кликабельные */
+    transition: background 0.3s ease, transform 0.2s ease; /* Плавный переход фона и трансформации */
+    font-size: 16px; /* Размер шрифта кнопки */
+    font-weight: 600; /* Жирность шрифта кнопки */
+}
+
+.auth-buttons button:hover {
+    background: linear-gradient(45deg, #80deea, #b2ebf2); /* Изменение градиента при наведении */
+    transform: scale(1.05); /* Увеличение размера кнопки при наведении */
+}
+
+.upload-button, .convert-button {
+    padding: 10px 15px; /* Отступы внутри кнопок */
+    border: none; /* Убираем рамку */
+    border-radius: 5px; /* Скругляем углы кнопок */
+    background: linear-gradient(45deg, #b2ebf2, #80deea); /* Используем такой же бледно-голубой градиент */
+    color: #004d40; /* Темно-голубой цвет текста */
+    cursor: pointer; /* Указываем, что кнопки кликабельные */
+    transition: background 0.3s ease, transform 0.2s ease; /* Плавный переход фона и трансформации */
+    font-size: 16px; /* Размер шрифта кнопки */
+    font-weight: 600; /* Жирность шрифта кнопки */
+}
+
+.upload-button:hover, .convert-button:hover {
+    background: linear-gradient(45deg, #80deea, #b2ebf2); /* Изменение градиента при наведении */
+    transform: scale(1.05); /* Увеличение размера кнопки при наведении */
+}
+
+.container {
+    display: flex; /* Используем flexbox для контейнера */
+    justify-content: space-between; /* Распределяем пространство между окнами */
+    width: 80%; /* Ширина контейнера */
+    margin: 80px auto; /* Увеличиваем верхний отступ, чтобы учесть фиксированную шапку */
+    padding: 20px; /* Отступы внутри контейнера */
+    background-color: #ffffff; /* Цвет фона контейнера */
+    border: 1px solid #b2ebf2; /* Бледно-голубая рамка контейнера */
+    border-radius: 10px; /* Скругляем углы контейнера */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Добавляем тень к контейнеру */
+    opacity: 0; /* Начальная прозрачность */
+    transform: translateY(20px); /* Начальное смещение вниз */
+    animation: fadeInUp 0.5s forwards; /* Анимация появления */
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1; /* Конечная прозрачность */
+        transform: translateY(0); /* Конечное положение */
+    }
+}
+
+.left-window, .right-window {
+    width: 45%; /* Ширина окон */
+    padding: 20px; /* Отступы внутри окон */
+}
+
+.image-window {
+    width: 100%; /* Ширина окна для изображений */
+    height: 300px; /* Высота окна для изображений */
+    border: 1px solid #b2ebf2; /* Бледно-голубая рамка окна для изображений */
+    border-radius: 10px; /* Скругляем углы окна для изображений */
+    padding: 10px; /* Отступы внутри окна для изображений */
+    background-color: #f7fbff; /* Светлый фон окна для изображений */
+    display: flex; /* Используем flexbox для выравнивания изображений */
+    justify-content: center; /* Центрируем изображение по горизонтали */
+    align-items: center; /* Центрируем изображение по вертикали */
+}
+
+.image-window img {
+    max-width: 100%; /* Максимальная ширина изображения */
+    max-height: 100%; /* Максимальная высота изображения */
+    object-fit: contain; /* Сохраняем пропорции изображения */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Плавный переход для трансформации и тени */
+}
+
+.image-window:hover img {
+    transform: scale(1.1); /* Увеличение изображения при наведении */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2); /* Тень при наведении */
+}
+
+button {
+    width: 100%; /* Ширина кнопки */
+    padding: 10px; /* Отступы внутри кнопки */
+    border: none; /* Убираем рамку */
+    border-radius: 10px; /* Скругляем углы кнопки */
+    background-color: #4CAF50; /* Цвет фона кнопки */
+    color: #FFFFFF; /* Цвет текста кнопки */
+    cursor: pointer; /* Указываем, что кнопка кликабельная */
+    font-size: 16px; /* Размер шрифта кнопки */
+    font-weight: 600; /* Жирность шрифта кнопки */
+}
+
+button:hover {
+    background-color: #3e8e41; /* Цвет фона кнопки при наведении */
+}
